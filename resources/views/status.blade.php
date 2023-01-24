@@ -36,7 +36,7 @@
                             @if($account->token == NULL)
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{$account->name}} - Nie połączony</div>
                             @else
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">{{$account->name}} - Połączony</div>
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">{{$account->name}} - Połączony</div>
                             @endif
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{$account->updated_at}}</div>
                         </div>
