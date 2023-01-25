@@ -87,5 +87,38 @@ function getAccessToken() {
 
 
 
+function rest_get($url, $account) { //dodać konto z którego ma pobrać token
+
+   $token = DB::table('token')->where('name', $account)->first();
+
+    $headers = array("Authorization: Bearer {$token->token}", "Accept: application/vnd.allegro.public.v1+json");
+    $ch = $this->getCurl($headers, $url);
+    $mainCategoriesResult = curl_exec($ch);
+    $resultCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($mainCategoriesResult === false || $resultCode !== 200) {
+        exit ("Coś poszło nie tak");
+    }
+    $categoriesList = json_decode($mainCategoriesResult);
+   
+   var_dump($categoriesList);
+    // return $categoriesList;
+}
+
+
+
+public function select($name) {
+
+
+
+   // $this->rest_get('https://api.allegro.pl.allegrosandbox.pl/sale/categories', $name);
+
+    return view('allegro', [
+        'name' => $name, 
+    ]);
+
+
+}
+
 
 }

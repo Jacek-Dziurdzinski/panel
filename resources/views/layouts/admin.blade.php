@@ -44,11 +44,25 @@
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>{{ __('Panel') }}</span></a>
         </li>
-
+        <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Allegro</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Konta:</h6>
+                        @foreach($accounts as $account)
+                        <a class="collapse-item" href="{{ route('allegro', ['name'=>$account->name]) }}">{{$account->name;}}</a>
+                        @endforeach
+                    </div>
+                </div>
+            </li>
         <li class="nav-item {{ Nav::isRoute('status') }}">
             <a class="nav-link" href="{{ route('status') }}">
-                <i class="fas fa-fw fa-table"></i>
-                <span>{{ __('Status') }}</span></a>
+                <i class="fa fa-plug"></i>
+                <span>{{ __('Integracje') }}</span></a>
         </li>
 
         <!-- Divider -->
