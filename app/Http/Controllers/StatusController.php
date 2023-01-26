@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class StatusController extends Controller
 {
@@ -26,10 +27,37 @@ class StatusController extends Controller
     public function index()
     {
         $users = User::count();
-
+        
+    
       
         $accounts = DB::table('token')->get();
 
         return view('status', ['accounts' => $accounts]);
+    }
+
+
+    public function add(Request $request)
+    {
+    
+        $name = $request->all('name');
+        $client = $request->all('client');
+        $secret = $request->all('secret');
+    
+    
+       DB::table('token')->insert([
+        'name' => $name["name"],
+        'client_id'=>$client['client'],
+        'client_secret'=>$secret['secret'],
+        'token' => '',
+        'created_at' =>Carbon::now(),
+        'updated_at' =>Carbon::now(),
+     ]);
+    
+    
+     $accounts = DB::table('token')->get();
+
+     return view('status', ['accounts' => $accounts]);
+    
+    
     }
 }
