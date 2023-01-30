@@ -29,7 +29,8 @@
                 </div>
                 <div class="card-body">
                  
-         
+      Dodać produkty do bazy danych "NUMER AUKCJI" : 'CENA ZAKUPU' 
+      Aktualizacja aukcji dopiero po wcisnięciu przycisku  
                 
 
 

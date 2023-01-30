@@ -11,7 +11,7 @@
         <!-- API OK -->
 
       @foreach($accounts as $account) 
-      @if($account->token == NULL)
+      @if($account->api_token == NULL)
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-danger shadow h-100 py-2">
                 <div class="card-body">

@@ -25,6 +25,7 @@ Route::get('/status', 'StatusController@index')->name('status');
 Route::post('/status', 'StatusController@add')->name('status');
 Route::get('/allegro/{name}', 'AllegroController@select')->name('allegro');
 Route::get('/allegro_api', 'AllegroApiController@main')->name('allegro_api');
+Route::get('/allegro_download', 'AllegroDownloadController@download_offer')->name('allegro_download');
 
 
 

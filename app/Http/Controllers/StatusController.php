@@ -30,7 +30,7 @@ class StatusController extends Controller
         
     
       
-        $accounts = DB::table('token')->get();
+        $accounts = DB::table('api_token')->get();
 
         return view('status', ['accounts' => $accounts]);
     }
@@ -44,17 +44,17 @@ class StatusController extends Controller
         $secret = $request->all('secret');
     
     
-       DB::table('token')->insert([
+       DB::table('api_token')->insert([
         'name' => $name["name"],
         'client_id'=>$client['client'],
         'client_secret'=>$secret['secret'],
-        'token' => '',
+        'api_token' => '',
         'created_at' =>Carbon::now(),
         'updated_at' =>Carbon::now(),
      ]);
     
     
-     $accounts = DB::table('token')->get();
+     $accounts = DB::table('api_token')->get();
 
      return view('status', ['accounts' => $accounts]);
     

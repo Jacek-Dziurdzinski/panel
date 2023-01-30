@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
 
-$accounts = DB::table('token')->get();
+$accounts = DB::table('api_token')->get();
         view::share('accounts', $accounts);
     }
 }

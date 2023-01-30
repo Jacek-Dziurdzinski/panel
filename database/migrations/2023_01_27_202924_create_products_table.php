@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokenTable extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateTokenTable extends Migration
      */
     public function up()
     {
-        Schema::create('token', function (Blueprint $table) {
-            $table->id();
+        Schema::create('products', function (Blueprint $table) {
+            $table->id()->index();
+            $table->string('ean')->unique();
             $table->string('name');
-            $table->string('client_id');
-            $table->string('client_secret');
-            $table->string('token');
+            $table->string('stock');
+            $table->string('buy_price');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
@@ -30,6 +31,6 @@ class CreateTokenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('token');
+        Schema::dropIfExists('products');  //
     }
-}
+};

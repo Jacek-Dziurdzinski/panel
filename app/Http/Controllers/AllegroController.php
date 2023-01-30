@@ -55,12 +55,12 @@ function rest_get($uri, $generatedKey, array $params = []) {
 public function select($name) {
 
    
- $token = DB::table('token')->where('name', '3SELL-ZDROWIE')->first(); 
-    $token = $token->token;
+ $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
+    $api_token = $api_token->api_token;
 
 
 
-$dane = $this->rest_get('https://api.allegro.pl/sale/offers/', $token);
+$dane = $this->rest_get('https://api.allegro.pl/sale/offers/', $api_token);
 
 
     return view('allegro', [
