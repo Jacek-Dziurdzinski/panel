@@ -19,6 +19,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/logout', 'Auth\LogoutController@index')->name('logout');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/status', 'StatusController@index')->name('status');
@@ -28,10 +30,16 @@ Route::get('/allegro_api', 'AllegroApiController@main')->name('allegro_api');
 Route::get('/allegro_download', 'AllegroDownloadController@download_offer')->name('allegro_download');
 
 
-
 Route::get('/rest', 'AllegroController@request')->name('rest_get');
 
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
+Route::resource('products', 'ProductsController')
+    ->only([
+        'index', 'show'
+    ]);
 
+ Route::post('/products', 'ProductsController@update')->name('products.update');
+ Route::get('/settings', 'ProductsController@settings')->name('products.settings');
+ Route::post('/settings', 'ProductsController@settings_update')->name('settings.update');

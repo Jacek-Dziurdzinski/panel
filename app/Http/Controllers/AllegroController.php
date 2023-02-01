@@ -53,23 +53,26 @@ function rest_get($uri, $generatedKey, array $params = []) {
 
 
 public function select($name) {
-
+ 
    
  $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
-    $api_token = $api_token->api_token;
+ $api_token = $api_token->api_token;
 
 
 
-$dane = $this->rest_get('https://api.allegro.pl/sale/offers/', $api_token);
-
+$dane = $this->rest_get('https://api.allegro.pl/sale/offers?limit=5', $api_token);
+$dane = json_decode($dane, true);
 
     return view('allegro', [
         'name' => $name, 
        'dane' => $dane,
     ]);
 
-
+   
 }
+
+
+
 
 
 }

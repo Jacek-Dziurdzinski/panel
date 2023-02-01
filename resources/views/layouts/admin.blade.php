@@ -59,6 +59,12 @@
                     </div>
                 </div>
             </li>
+            <li class="nav-item {{ Nav::isRoute('products') }}">
+            <a class="nav-link" href="{{ route('products.index') }}">
+                <i class="fas fa-dolly-flatbed"></i>
+                <span>{{ __('Produkty') }}</span></a>
+        </li>
+            
         <li class="nav-item {{ Nav::isRoute('status') }}">
             <a class="nav-link" href="{{ route('status') }}">
                 <i class="fa fa-plug"></i>

@@ -17,6 +17,9 @@ class CreateOffersTable extends Migration
             $table->id()->index();
             $table->string('ean')->unique();
             $table->string('offer_id');
+            $table->string('sell_price');
+            $table->string('promotion');
+            $table->string('coins');
             $table->timestamps();
         });
     }

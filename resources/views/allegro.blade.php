@@ -3,7 +3,7 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">{{ __('Panel') }}</h1>
-
+    <a class="btn btn-primary" href="{{url('allegro_download')}}" role="button">Pobierz oferty</a>
     @if (session('success'))
     <div class="alert alert-success border-left-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -29,8 +29,7 @@
                 </div>
                 <div class="card-body">
                  
-      Dodać produkty do bazy danych "NUMER AUKCJI" : 'CENA ZAKUPU' 
-      Aktualizacja aukcji dopiero po wcisnięciu przycisku  
+
                 
 
 
@@ -56,6 +55,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    
                                      <!-- start-->
                                      @foreach($dane["offers"] ?? [] as $products)
                                     <tr class="inner-box">
