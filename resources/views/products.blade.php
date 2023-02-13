@@ -56,36 +56,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                        
                                      <!-- start-->
                                      @foreach($dane ?? [] as $products)
                                     <tr class="inner-box">
-                                    
+                                  
                                         <td>
                                             <div class="event-img">
-                                                <img height="40"' src='' alt="" />
+                                            <img src="{{asset('storage/'.$products->ean.'.png')}}" height="50"> 
+                                           
                                             </div>
                                         </td>
                                         <td>
                                             <div class=".fs-6">
-                                                <h4>{{$products['manufacturer']}}</h4>
+                                                <h4>{{$products->producers->name}}</h4>
                                                 <div class="meta">
                                                 </td>
                                         <td>
                                             <div class=".fs-6">
-                                                <h4>{{$products['name']}}</h4>
+                                                <h4>{{$products->name}}</h4>
                                                 <div class="meta">
                                                     </td>
                                                     <td>
                                                     <div class="categories">
-                                                       {{$products["stock"]}} sztuk
-                                                        @if($products["stock"] <'2')
+                                                       {{$products->stock}} sztuk
+                                                        @if($products->stock <'2')
                                                         <i class="fa fa-exclamation-triangle tip_trigger"></i>
                                                         @endif
                                                     </div>
                                                     </td>
                                                     <td>
                                                     <div class="categories">
-                                                       {{$products["buy_price"]}} zł
+                                                       {{$products->buy_price}} zł
                                                     </div>
                                                     </td>
                                                 </div>
@@ -95,18 +97,22 @@
                                         <td>
                                           
                                             <div class="primary-btn">
-                                            <a class="btn btn-info" href="{{ route('products.show', ['product' => $products['ean']])}}">Szczegóły</a>
+                                            <a class="btn btn-info" href="{{ route('products.show', ['product' => $products->ean])}}">Szczegóły</a>
                                             </div>
                                         </td>
                                     </tr>
                             <!-- end-->
                             @endforeach
-                           
-                </div>
-            </div>
+                            </tbody>
+                            </table>
+                        </div>
+                        {{ $dane->links() }}
+                     </div>
          
-        </div>
+                 </div>
+            </div>
+            </div>
         
-   
+        </div>
    
 @endsection

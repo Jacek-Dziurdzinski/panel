@@ -59,6 +59,7 @@
                     </div>
                 </div>
             </li>
+            
             <li class="nav-item {{ Nav::isRoute('products') }}">
             <a class="nav-link" href="{{ route('products.index') }}">
                 <i class="fas fa-dolly-flatbed"></i>

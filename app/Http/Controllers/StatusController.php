@@ -28,8 +28,17 @@ class StatusController extends Controller
     {
         $users = User::count();
         
-    
-      
+        $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
+        $api_token = $api_token->api_token;
+
+        // api connection test
+        $object = new AllegroApiController();
+        $api_connection = $object->rest_get('https://api.allegro.pl/sale/categories', $api_token);
+        $api_connection = json_decode($api_connection, true);
+        if(isset($api_connection['error'])){
+        DB::table('api_token')->where('api_token', $api_token)->update(['api_token' => '']); 
+         //end
+}
         $accounts = DB::table('api_token')->get();
 
         return view('status', ['accounts' => $accounts]);

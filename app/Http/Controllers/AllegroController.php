@@ -60,7 +60,7 @@ public function select($name) {
 
 
 
-$dane = $this->rest_get('https://api.allegro.pl/sale/offers?limit=5', $api_token);
+$dane = $this->rest_get('https://api.allegro.pl/sale/offers?limit=1000&publication.status=ACTIVE', $api_token);
 $dane = json_decode($dane, true);
 
     return view('allegro', [

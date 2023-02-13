@@ -85,7 +85,28 @@ class AllegroApiController extends Controller
      }
      
      
-
+     function rest_get($uri, $generatedKey, array $params = []) {
+        $headers = [
+            'Accept: application/vnd.allegro.public.v1+json',
+            'Content-Type: application/vnd.allegro.public.v1+json',
+            'Authorization: Bearer '.$generatedKey.'',
+        ];
+        
+        
+    
+    
+        $curl = curl_init($uri);
+    
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    
+        $data = json_encode($params);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);    
+    
+        return curl_exec($curl);
+    }
+    
      
 
 }

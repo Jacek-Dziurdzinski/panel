@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class AllegroDownloadController extends Controller
@@ -31,37 +32,57 @@ class AllegroDownloadController extends Controller
         $api_token = $api_token->api_token;
        
    
-       
-       $dane = $this->rest_get('https://api.allegro.pl/sale/offers?limit=8', $api_token);
+       $object = new AllegroApiController();
+       $dane = $object->rest_get('https://api.allegro.pl/sale/offers?limit=1000&publication.status=ACTIVE', $api_token);
        $dane = json_decode($dane, true);
        
+
+    if(isset($dane["error"])){
+
+    DB::table('api_token')->where('api_token', $api_token)->update(['api_token' => '']); 
+            
+    return view('status',[
+
+        'error' => 'Token wygasł, połącz ponownie!',
+
+    ]);
+
+}
+
+
+
+
        foreach($dane["offers"] as $product){
        
-         
-          
-           $product_details = $this->rest_get('https://api.allegro.pl/sale/offers/'.$product["id"], $api_token);
-         //  $product_details = $this->rest_get('https://api.allegro.pl/sale/offers/13097410968', $api_token);
-
+  
+        $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
+        $api_token = $api_token->api_token;
+       
+           $object = new AllegroApiController();
+           $product_details = $object->rest_get('https://api.allegro.pl/sale/offers/'.$product["id"], $api_token);
+        
        
            $product_details = json_decode($product_details, true);
        
           
-
-         
-           //promotion->emphasized // wyroznienie
+        
+    
        
        foreach($product_details['parameters'] as $find_ean){
        
        if($find_ean["id"] == '225693'){
        
-       // dd($product_details['promotion']['emphasized']);
+    Storage::disk('public')->put($find_ean["values"][0].'.png', file_get_contents($product["primaryImage"]["url"]));     
+       
+
 
        DB::table('products')->insertOrIgnore([
            'ean' => $find_ean["values"][0],
+           'producer' => '0',
            'name' => $product["name"],
            'stock' => $product["stock"]["available"],
            'buy_price' =>'15.00',
-           'discount' =>'5',
+           'discount' =>'0',
            'created_at' =>Carbon::now(),
         ]);
        
@@ -72,33 +93,25 @@ class AllegroDownloadController extends Controller
            'promotion' => $product_details['promotion']['emphasized'],
            'created_at' =>Carbon::now(),
         ]);
-       
+
+        DB::table('offers')->insertOrIgnore([
+            'ean' => $find_ean["values"][0],
+            'offer_id' => $product["id"],
+            'sell_price' => $product["sellingMode"]["price"]["amount"],
+            'promotion' => $product_details['promotion']['emphasized'],
+            'created_at' =>Carbon::now(),
+         ]);
+        
+         DB::table('products')->where('ean', $find_ean["values"][0])->update(['stock' => $product["stock"]["available"]]); 
+         DB::table('offers')->where('ean', $find_ean["values"][0])->update(['sell_price' => $product["sellingMode"]["price"]["amount"]]); 
+
+
        }}};
        
     
        return redirect()->route('products.index');
     }
-    function rest_get($uri, $generatedKey, array $params = []) {
-        $headers = [
-            'Accept: application/vnd.allegro.public.v1+json',
-            'Content-Type: application/vnd.allegro.public.v1+json',
-            'Authorization: Bearer '.$generatedKey.'',
-        ];
-        
-        
-    
-    
-        $curl = curl_init($uri);
-    
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    
-        $data = json_encode($params);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);    
-    
-        return curl_exec($curl);
-    }
+  
     
 
 }

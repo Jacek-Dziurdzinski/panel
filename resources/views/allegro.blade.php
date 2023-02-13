@@ -50,8 +50,7 @@
                                         <th scope="col">Nazwa</th>
                                         <th scope="col">Ilość</th>
                                         <th scope="col">Sprzedanych</th>
-                                        <th scope="col">Zamówione</th>
-                                        <th class="text-center" scope="col">Więcej</th>
+                                   
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,17 +84,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>
-                                        <div class="categories">
-                                                        <a href="#">20 sztuk</a>
-                                                    </div>
-                                                
-                                        </td>
-                                        <td>
-                                            <div class="primary-btn">
-                                                <a class="btn btn-primary" href="#">Szczegóły</a>
-                                            </div>
-                                        </td>
+                                     
                                     </tr>
                             <!-- end-->
                             @endforeach
