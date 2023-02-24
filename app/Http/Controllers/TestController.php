@@ -31,31 +31,21 @@ class TestController extends Controller
         $api_token = $api_token->api_token;
 
         $object = new AllegroApiController();
-        $dane = $object->rest_get('https://api.allegro.pl/sale/offers?limit=1000&publication.status=ACTIVE', $api_token);
+        $dane = $object->rest_get('https://api.allegro.pl/sale/offers?limit=100', $api_token);
         $dane = json_decode($dane, true);
-        
-
+       
+        echo '<br>';
+        echo 'Dodać rezerwacje zamówionych już produktów i przycisk do dodawania produktów które przyszły do allegro';
+        echo '<br><br>'; 
         foreach($dane["offers"] as $product){
        
   
-               $ean = $product["id"];
+               $offer_id = $product["id"];
                $stock = $product["stock"]["available"];
                $sold = $product["stock"]["sold"];
             
          
-           
-        echo 'EAN '.$ean;
-        echo '<br>';
-        echo 'Ilość '.$stock;
-        echo '<br>'; 
-        echo 'Sprzedanych '.$sold;
-        echo '<br>'; 
-        if($stock > 0 && $sold > 0){
-        $wspołczynnik = $stock / $sold;
-        }else { $wspołczynnik = 2;}
-        echo 'Współczynnik '.$wspołczynnik;
-        echo '<br>';
-        if($wspołczynnik <= 1){ 
+      
        
             $per_day_sold =  $sold  / 30;
             $value1 = $per_day_sold  * 15;
@@ -64,14 +54,17 @@ class TestController extends Controller
             $value2 = $per_day_stock * 15;
 
             $order = $value1 - $value2;
-        }else{$order = 0;}
-        echo 'Zamówić '. ceil($order); 
-        echo '<br>'; 
-        echo '<br>';
-    
-           };
-           
-
+      
+        if ($order > 1.9){
+        echo'<br>';
+        echo $offer_id;
+        echo ' stock: '.$stock;
+        echo ' sold: '.$sold;
+        echo ' order: '.$order;
+   
+        echo'<br>';
+        }
+        }
     }
 
 

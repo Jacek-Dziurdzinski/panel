@@ -20,8 +20,7 @@
     @endif
  
 
-
-
+  
  @foreach ($producer as $data)
 
 
@@ -66,6 +65,8 @@
                         
                                      <!-- start-->
                                      @foreach($dane ?? [] as $products)
+                           
+
                                      @if($products['producer_id'] == $data["id"])
 
                                 
@@ -109,6 +110,10 @@
                             @endforeach
                             </tbody>
                             </table>
+                            <div class="primary-btn">
+
+                                <a class="btn btn-info" href="{{ route('shopping.detail', [$data['id']])}}">Podsumowanie</a>
+                                </div>
                         </div>
                 
                      </div>

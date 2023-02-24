@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Offer;
 use App\Models\Producer;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ShoppingController extends Controller
 {
@@ -34,8 +36,7 @@ class ShoppingController extends Controller
         $object = new AllegroApiController();
         $dane = $object->rest_get('https://api.allegro.pl/sale/offers?limit=100', $api_token);
         $dane = json_decode($dane, true);
-        
-        echo 'Rozdzielić zamówienia na formeds i medicaline.';
+       
         echo '<br>';
         echo 'Dodać rezerwacje zamówionych już produktów i przycisk do dodawania produktów które przyszły do allegro';
         echo '<br><br>'; 
@@ -46,45 +47,88 @@ class ShoppingController extends Controller
                $stock = $product["stock"]["available"];
                $sold = $product["stock"]["sold"];
             
-         
-        if($stock > 0 && $sold > 0){
-        $wspołczynnik = $stock / $sold;
-        }else { $wspołczynnik = 2;}
-        if($wspołczynnik <= 1){ 
-       
+   
             $per_day_sold =  $sold  / 30;
-            $value1 = $per_day_sold  * 15;
+            $value1 = $per_day_sold  * 7;
 
             $per_day_stock=  $stock  / 30;
-            $value2 = $per_day_stock * 15;
+            $value2 = $per_day_stock * 7;
 
             $order = $value1 - $value2;
-        }else{$order = 0;}
+    
 
         if ($order > 1.9){
-
+  
         $offer = Offer::where('offer_id', $offer_id)->first(); 
+        $buy_price = $offer->products->buy_price;
+        $discount = $offer->products->discount;
+       
 
-    
-    $shopping[] = [
-        'producer' => $offer->products->producers->name,
-        'producer_id' => $offer->products->producer,
-        'name' => $offer->products->name,
-        'ean' => $offer->ean,
+        $discountPrice = $buy_price - ($buy_price * ($discount/100));
+
+      
+        $shopping[] = [
+        'offer_id' => $offer_id,
+        'producer' => $offer->products->producers->name ?? '--------',
+        'producer_id' => $offer->products->producer ?? '--------',
+        'name' => $offer->products->name ?? '--------',
+        'ean' => $offer->ean ?? '--------',
         'quantinity' => ceil($order),
     ];
     
+    $total_buy_price = ceil($order) * round($discountPrice, 2);
+    DB::table('shopping_temp')->insertOrIgnore([
+        'offer_id' => $offer_id,
+        'ean' => $offer->ean ?? '--------',
+        'producer_id' => $offer->products->producer ?? '--------',
+        'name' => $offer->products->name ?? '--------',
+        'quantinity' => ceil($order),
+        'buy_price' => $total_buy_price,
+        'created_at' =>Carbon::now(),
+     ]);
+
+
+
     }
            };
            
-           $producer =   Producer::all();
-   
+           $producer = Producer::all();
+
+
 return view('shopping', [
     'dane' => $shopping, 
     'producer' => $producer,
 ]);
     
     }
+
+
+
+    public function detail(int $producerId)
+    {
+        DB::table('shopping_temp')->where('producer_id', '!=', $producerId)->delete();
+        $shoppingList = DB::table('shopping_temp')->where('producer_id', $producerId)->get();
+       
+        $total_price = 0;
+        foreach($shoppingList as $price){
+        
+          $total_price += $price->buy_price;
+       
+        }
+        return view('shoppingDetail', [
+            'dane' => $shoppingList, 
+            'total_price' => $total_price,
+        ]);
+    
+    }
+
+
+    public function export() 
+    {
+        return (new UsersExport)->download('invoices.xlsx');
+
+    }
+
 
 
 

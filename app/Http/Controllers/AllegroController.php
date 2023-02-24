@@ -24,6 +24,7 @@ class AllegroController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
 ////OBSŁUGA ZAPYTAŃ DO API ALEGRO ///
 function rest_get($uri, $generatedKey, array $params = []) {
     $headers = [
@@ -55,7 +56,7 @@ function rest_get($uri, $generatedKey, array $params = []) {
 public function select($name) {
  
    
- $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
+ $api_token = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first();  //wstawić zmienną zamiasy nazwy 3SELL-ZDROWIE
  $api_token = $api_token->api_token;
 
 

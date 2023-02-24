@@ -20,7 +20,7 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('img/favicon.ico') }}" rel="icon" type="image/png">
 </head>
 <body id="page-top">
 
@@ -47,7 +47,7 @@
         <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa fa-shopping-cart"></i>
+                    <i class="fa fa-share-alt"></i>
                     <span>Allegro</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -59,6 +59,12 @@
                     </div>
                 </div>
             </li>
+            <li class="nav-item {{ Nav::isRoute('shopping') }}">
+                <a class="nav-link" href="{{ route('shopping') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>{{ __('Zamówienia') }}</span></a>
+            </li>
+                
             
             <li class="nav-item {{ Nav::isRoute('products') }}">
             <a class="nav-link" href="{{ route('products.index') }}">
@@ -217,7 +223,7 @@
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold">
-                                    <div class="text-truncate">Zrobiłem kupkę.</div>
+                                    <div class="text-truncate">A ja się zjawię.</div>
                                     <div class="small text-gray-500">Andrzej Duda · 1d</div>
                                 </div>
                             </a>
@@ -227,7 +233,7 @@
                                     <div class="status-indicator"></div>
                                 </div>
                                 <div>
-                                    <div class="text-truncate">Pusciłem bąka</div>
+                                    <div class="text-truncate">Mnie nie będzie.</div>
                                     <div class="small text-gray-500">Donadl Tusk · 1d</div>
                                 </div>
                             </a>
@@ -237,7 +243,7 @@
                                     <div class="status-indicator bg-warning"></div>
                                 </div>
                                 <div>
-                                    <div class="text-truncate">Kończy się żwirek dla kota!</div>
+                                    <div class="text-truncate">Proszę przyjechać na posiedzenie</div>
                                     <div class="small text-gray-500">Jarosław Kaczyński · 2d</div>
                                 </div>
                             </a>

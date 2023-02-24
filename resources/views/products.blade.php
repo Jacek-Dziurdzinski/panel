@@ -69,7 +69,7 @@
                                         </td>
                                         <td>
                                             <div class=".fs-6">
-                                                <h4>{{$products->producers->name}}</h4>
+                                                <h4>{{$products->producers->name ?? '--------'}}</h4>
                                                 <div class="meta">
                                                 </td>
                                         <td>

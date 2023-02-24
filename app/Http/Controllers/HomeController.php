@@ -67,19 +67,19 @@ foreach($orders as $earn){
 
 
         $object = new AllegroApiController();
-        $orders = $object->rest_get('https://api.allegro.pl/order/checkout-forms?limit=30', $api_token);
+        $orders = $object->rest_get('https://api.allegro.pl/order/checkout-forms?limit=100', $api_token);
         $orders = json_decode($orders, true);
-      
+     // dd( $orders);
 if (isset($orders['error'])){ return $alert = 'Token wygasł. Zamówienia nie są pobierane!'; } 
 
 foreach($orders["checkoutForms"] as $order){
-$buy_time = Carbon::parse($order['updatedAt'])->format('d.m.Y H:i');
-DB::table('orders')->insertOrIgnore([
-    'order_id' => $order["id"],
-    'buyer' => $order["buyer"]["login"],
-    'buy_time'=> $buy_time,
-    'offer' => '',
-    'created_at' =>Carbon::now(),
+            $buy_time = Carbon::parse($order['updatedAt'])->format('d.m.Y H:i');
+            DB::table('orders')->insertOrIgnore([
+                'order_id' => $order["id"],
+                'buyer' => $order["buyer"]["login"],
+                'buy_time'=> $buy_time,
+                'offer' => '',
+                'created_at' =>Carbon::now(),
 
 ]);
 

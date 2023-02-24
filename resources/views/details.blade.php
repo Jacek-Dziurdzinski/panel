@@ -12,12 +12,16 @@
     </div>
 @endif
 
-@if ($errors->any())
-    <div class="alert alert-danger border-left-danger" role="alert">
+@if($dane->producer == 0)
+
+
+@endif
+@if ($dane->producer == 0)
+    <div class="alert alert-warning border-left-warning" role="warning">
         <ul class="pl-4 my-2">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+           
+               Zarobek nie jest obliczony! Sprawdź czy uzupełnione są wszytkie pola
+        
         </ul>
     </div>
 @endif

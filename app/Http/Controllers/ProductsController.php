@@ -55,7 +55,6 @@ class ProductsController extends Controller
     
         
         $earn = $this->earn( $dane->offers->offer_id);
-      
         $dane['earn'] = round($earn, 2);
 
 
@@ -65,6 +64,7 @@ class ProductsController extends Controller
         return view('details', [
             'dane' => $dane, 
             'producers' => $producers,
+
         ]);
 
 
@@ -164,7 +164,8 @@ public function settings_update(Request $request)
      ]);
 
 
-     return $this->index();
+
+     return to_route('products.index');
 }
 
 
@@ -176,6 +177,7 @@ public function earn($offer_id, $sell_price = null)
         $buy_price = $dane->products->buy_price;
         if($sell_price == null){$sell_price = $dane->sell_price;}
         $discount = $dane->products->discount;
+        if($dane->products->discount == 0) {return 0;}
         $commission_additional_quantity = $dane->promotion;
         $coin_quantity = $dane->coins;
 

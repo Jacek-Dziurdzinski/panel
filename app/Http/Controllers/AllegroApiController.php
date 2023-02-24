@@ -49,10 +49,10 @@ class AllegroApiController extends Controller
      
      function getAccessToken($authorization_code) {
 
-        $dane = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first();  //przekazuje token i api  tylko jednego konta
-        define('CLIENT_ID', $dane->client_id); // wprowadź Client_ID aplikacji
-        define('CLIENT_SECRET', $dane->client_secret); // wprowadź Client_Secret aplikacji
-        define('REDIRECT_URI', 'https://panel.3sell.pl/allegro_api'); // wprowadź redirect_uri
+        $dane = DB::table('api_token')->where('name', '3SELL-ZDROWIE')->first(); 
+        define('CLIENT_ID', $dane->client_id); 
+        define('CLIENT_SECRET', $dane->client_secret); 
+        define('REDIRECT_URI', 'https://panel.3sell.pl/allegro_api'); 
        
          $authorization = base64_encode(CLIENT_ID.':'.CLIENT_SECRET);
          $authorization_code = urlencode($authorization_code);
